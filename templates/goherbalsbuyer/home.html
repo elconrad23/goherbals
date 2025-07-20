@@ -1,0 +1,306 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Home - Goherbals{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Welcome to  Goherbals marketplace</h1>
+                <p class="lead mb-4">Discover amazing herbal products from trusted sellers countrywide. Shop with confidence and find exactly what you're looking for.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'goherbals:products' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                    </a>
+                    <a href="{% url 'goherbalseller:becomeseller' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-store me-2"></i>Start Selling
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.pexels.com/photos/32551016/pexels-photo-32551016.jpeg" 
+                    alt="Shopping" class="img-fluid rounded shadow-lg" style="max-height: 400px; width: 400px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Shop by Category</h2>
+            <p class="text-muted">Browse our popular categories</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for category in featured_categories %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card category-card h-100 border-0 shadow-sm">
+                    <div class="card-img-wrapper position-relative overflow-hidden">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                        {% else %}
+                            <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg" 
+                                 class="card-img-top" alt="{{ category.name }}">
+                        {% endif %}
+                        <div class="card-img-overlay d-flex align-items-end">
+                            <div class="text-white">
+                                <h5 class="card-title fw-bold">{{ category.name }}</h5>
+                                <p class="card-text small">{{ category.products.count }} products</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'goherbals:category_detail' category.slug %}" 
+                           class="btn btn-outline-primary btn-sm">
+                            View Products <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No categories available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Featured Products</h2>
+            <p class="text-muted">Hand-picked products just for you</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100 border-0 shadow-sm">
+                    <div class="card-img-wrapper position-relative">
+                        {% if product.images.first %}
+                            <img src="{{ product.images.first.image.url }}" 
+                                 class="card-img-top" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="https://images.pexels.com/photos/279906/pexels-photo-279906.jpeg" 
+                                 class="card-img-top" alt="{{ product.name }}">
+                        {% endif %}
+                        
+                        {% if product.is_on_sale %}
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                            -{{ product.discount_percentage }}%
+                        </span>
+                        {% endif %}
+                        
+                        <div class="card-overlay position-absolute top-0 end-0 m-2">
+                            <button class="btn btn-sm btn-light rounded-circle add-to-cart-btn" 
+                                    data-product-id="{{ product.id }}">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <a href="{% url 'goherbals:product_detail' product.id %}" 
+                               class="text-decoration-none text-dark">
+                                {{ product.name }}
+                            </a>
+                        </h6>
+                        <p class="card-text small text-muted">{{ product.short_description|truncatewords:15 }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="price">
+                                <span class="fw-bold text-primary">${{ product.price }}</span>
+                                {% if product.original_price %}
+                                    <small class="text-muted text-decoration-line-through ms-1">
+                                        ${{ product.original_price }}
+                                    </small>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="rating">
+                                <small class="text-warning">
+                                    {% for i in "12345" %}
+                                        <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                </small>
+                                <small class="text-muted">({{ product.reviews.count }})</small>
+                            </div>
+                        </div>
+                        
+                        <div class="seller-info mt-2">
+                            <small class="text-muted">
+                                by {{ product.seller.seller_profile.business_name|default:product.seller.username }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No featured products available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'goherbals:products' %}" class="btn btn-primary btn-lg">
+                View All Products <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-bag fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">{{ total_products|default:0 }}</h3>
+                    <p class="text-muted">Products</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h3 class="fw-bold">{{ total_sellers|default:0 }}</h3>
+                    <p class="text-muted">Sellers</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="fas fa-box fa-3x text-warning mb-3"></i>
+                    <h3 class="fw-bold">{{ total_orders|default:0 }}</h3>
+                    <p class="text-muted">Orders</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="fas fa-star fa-3x text-info mb-3"></i>
+                    <h3 class="fw-bold">{{ avg_rating|default:5.0 }}</h3>
+                    <p class="text-muted">Avg Rating</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <h3 class="fw-bold mb-4">Stay Updated</h3>
+                <p class="mb-4">Subscribe to our newsletter for the latest products and exclusive offers.</p>
+                
+                <form class="d-flex gap-2" method="POST" action="#">
+                    {% csrf_token %}
+                    <input type="email" class="form-control" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-light">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.card-img-wrapper {
+    height: 200px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.stat-card {
+    padding: 2rem;
+}
+
+.add-to-cart-btn {
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    transform: scale(1.1);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Add to cart functionality
+    $('.add-to-cart-btn').click(function() {
+        var productId = $(this).data('product-id');
+        var button = $(this);
+        
+        $.ajax({
+            url: '{% url "goherbals:ajax_add_to_cart" %}',
+            method: 'POST',
+            data: {
+                'product_id': productId,
+                'quantity': 1,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Update cart count
+                    $('#cart-count').text(response.cart_count);
+                    
+                    // Show success feedback
+                    button.html('<i class="fas fa-check"></i>');
+                    button.removeClass('btn-light').addClass('btn-success');
+                    
+                    setTimeout(function() {
+                        button.html('<i class="fas fa-shopping-cart"></i>');
+                        button.removeClass('btn-success').addClass('btn-light');
+                    }, 2000);
+                }
+            },
+            error: function() {
+                alert('Please login to add items to cart.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

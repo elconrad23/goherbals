@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Seller Dashboard - GoHerbal Marketplace{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tachometer-alt me-2"></i>Seller Dashboard
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'seller:dashboard' %}" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-chart-line me-2"></i>Overview
+                    </a>
+                    <a href="{% url 'seller:products' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-leaf me-2"></i>My Products
+                    </a>
+                    <a href="{% url 'seller:orders' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shopping-bag me-2"></i>Orders
+                    </a>
+                    <a href="{% url 'seller:payouts' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-dollar-sign me-2"></i>Payouts
+                    </a>
+                    <a href="{% url 'seller:analytics' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-chart-bar me-2"></i>Analytics
+                    </a>
+                    <a href="{% url 'seller:profile' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user me-2"></i>Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Welcome Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card bg-gradient-success text-white">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6>For Sellers</h6>
+                                    <ul class="list-unstyled">
+                                        <li><a href="{% url 'goherbalseller:addproduct' %}" class="text-muted text-decoration-none">Become a Seller</a></li>
+                                    </ul>          
+                                    <h4 class="card-title">Welcome back, Natural Wellness Co.!</h4>
+                                    <p class="card-text mb-0">Here's what's happening with your herbal store today.</p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <a href="{% url 'seller:product_create' %}" class="btn btn-light">
+                                        <i class="fas fa-plus me-2"></i>Add New Product
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-leaf fa-2x text-success mb-3"></i>
+                            <h4 class="fw-bold">24</h4>
+                            <p class="text-muted mb-0">Total Products</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-shopping-cart fa-2x text-success mb-3"></i>
+                            <h4 class="fw-bold">156</h4>
+                            <p class="text-muted mb-0">Total Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-dollar-sign fa-2x text-success mb-3"></i>
+                            <h4 class="fw-bold">$4,250</h4>
+                            <p class="text-muted mb-0">Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-star fa-2x text-success mb-3"></i>
+                            <h4 class="fw-bold">4.8</h4>
+                            <p class="text-muted mb-0">Avg Rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Recent Orders -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Orders</h5>
+                            <a href="{% url 'seller:orders' %}" class="btn btn-sm btn-outline-success">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>Customer</th>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ORD-20241215-A1B2</td>
+                                            <td>Sarah M.</td>
+                                            <td>Turmeric Capsules</td>
+                                            <td>$24.99</td>
+                                            <td>
+                                                <span class="badge bg-warning">Processing</span>
+                                            </td>
+                                            <td>Dec 15, 2024</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ORD-20241214-C3D4</td>
+                                            <td>Mike R.</td>
+                                            <td>Ginger Extract</td>
+                                            <td>$19.99</td>
+                                            <td>
+                                                <span class="badge bg-success">Delivered</span>
+                                            </td>
+                                            <td>Dec 14, 2024</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ORD-20241213-E5F6</td>
+                                            <td>Lisa K.</td>
+                                            <td>Ashwagandha</td>
+                                            <td>$29.99</td>
+                                            <td>
+                                                <span class="badge bg-info">Shipped</span>
+                                            </td>
+                                            <td>Dec 13, 2024</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'seller:product_create' %}" class="btn btn-success">
+                                    <i class="fas fa-plus me-2"></i>Add New Product
+                                </a>
+                                <a href="{% url 'seller:orders' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-shopping-bag me-2"></i>Manage Orders
+                                </a>
+                                <a href="{% url 'seller:payout_request' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-money-bill-wave me-2"></i>Request Payout
+                                </a>
+                                <a href="{% url 'seller:analytics' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-chart-line me-2"></i>View Analytics
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Status -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Account Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Account Verification</span>
+                                    <span class="badge bg-success">Verified</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Seller Approval</span>
+                                    <span class="badge bg-success">Approved</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Commission Rate</span>
+                                    <span class="text-success">5.0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Selling Products -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-trophy me-2"></i>Top Selling Products
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg" 
+                                             class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Product">
+                                        <div>
+                                            <h6 class="mb-1">Turmeric Capsules</h6>
+                                            <small class="text-muted">45 sold this month</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg" 
+                                             class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Product">
+                                        <div>
+                                            <h6 class="mb-1">Ginger Extract</h6>
+                                            <small class="text-muted">32 sold this month</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg" 
+                                             class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Product">
+                                        <div>
+                                            <h6 class="mb-1">Ashwagandha</h6>
+                                            <small class="text-muted">28 sold this month</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+    transition: all 0.3s ease;
+}
+
+.btn {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Add smooth scrolling and hover effects
+    $('.btn').hover(function() {
+        $(this).addClass('shadow-sm');
+    }, function() {
+        $(this).removeClass('shadow-sm');
+    });
+    
+    // Auto-refresh stats every 30 seconds
+    setInterval(function() {
+        console.log('Stats refreshed');
+    }, 30000);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+  "name": "goherbals",
+  "version": "1.0.0",
+  "description": "goherbals version 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "CW",
+  "license": "ISC"
+}
